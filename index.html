@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Form</title>
+    <style>
+         body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            background-image: linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12);
+            padding: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 50px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-top: 10px;
+        }
+
+        input {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            margin-top: 20px;
+            cursor: pointer;
+            background-color: aqua;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            text-align: center; /* Center align the text */
+        }
+
+        /* Password strength meter styles */
+        #password-strength-meter {
+            margin-bottom: 10px;
+        }
+
+        #password-strength-meter div {
+            display: inline-block;
+            width: 25%;
+            height: 10px;
+            margin-right: 5px;
+            background-color: #ccc;
+            border-radius: 2px;
+        }
+
+        #password-strength-meter .weak {
+            background-color: #ff5555;
+        }
+
+        #password-strength-meter .medium {
+            background-color: #ffdd00;
+        }
+
+        #password-strength-meter .strong {
+            background-color: #55ff55;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="signupForm" onsubmit="return validateForm()">
+            <h2>Sign Up</h2>
+            <label for="username">Username:</label>
+            <input type="text" id="usernamefield" name="username" required>
+            
+            <label for="email">Email:</label>
+            <input type="email" id="emailfield" name="email" required>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="passwordfield" name="password" required>
+            <div id="password-strength-meter"></div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="errorPopup" class="popup"></div>
+    <div id="confirmationPopup" class="popup"></div>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById("usernamefield").value;
+            var email = document.getElementById("emailfield").value;
+            var password = document.getElementById("passwordfield").value;
+
+            var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            var usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
+            var passwordRegex = /^(?=.\d)(?=.[a-z])(?=.*[A-Z]).{8,}$/;
+
+            if (!usernameRegex.test(username)) {
+                showErrorPopup('Please enter a valid username (3-16 characters)');
+                return false;
+            } else if (!emailRegex.test(email)) {
+                showErrorPopup('Please enter a valid email address');
+                return false;
+            } else if (!passwordRegex.test(password)) {
+                showErrorPopup('Please enter a valid password (at least one digit, one lowercase, one uppercase, 8 characters)');
+                return false;
+            } else {
+                showConfirmationPopup(username, email);
+                return false;
+            }
+        }
+
+       function showErrorPopup(message) {
+        var errorPopup = document.getElementById("errorPopup");
+        errorPopup.innerHTML = message;
+        errorPopup.style.display = "block";
+        setTimeout(function() {
+            errorPopup.style.display = "none";
+        }, 5000); // Adjusted to display for 5 seconds
+    }
+
+    function showConfirmationPopup(username, email) {
+        var confirmationPopup = document.getElementById("confirmationPopup");
+        var message = "Form submitted successfully:<br>Username: " + username + "<br>Email: " + email;
+        confirmationPopup.innerHTML = message;
+        confirmationPopup.style.display = "block";
+        setTimeout(function() {
+            confirmationPopup.style.display = "none";
+        }, 5000); // Adjusted to display for 5 seconds
+        }
+    </script>
+</body>
+</html>
