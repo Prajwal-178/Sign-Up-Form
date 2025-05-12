@@ -3,28 +3,118 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Signup Form</title>
+    <title>Enhanced Signup Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <div class="container">
-        <form id="signupForm" onsubmit="return validateForm()">
-            <h2>Sign Up</h2>
-            <label for="username">Username:</label>
-            <input type="text" id="usernamefield" name="username" required>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="container max-w-md w-full bg-white p-8 rounded-lg shadow-md">
+        <form id="signupForm" class="signup-form">
+            <h2 class="text-2xl font-bold mb-6 text-center text-gray-800">Create Your Account</h2>
             
-            <label for="email">Email:</label>
-            <input type="email" id="emailfield" name="email" required>
-            
-            <label for="password">Password:</label>
-            <input type="password" id="passwordfield" name="password" required>
-            <div id="password-strength-meter"></div>
+            <div class="mb-4">
+                <label for="username" class="block text-gray-700 text-sm font-bold mb-2">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    required 
+                    minlength="4" 
+                    maxlength="20" 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Choose a username"
+                >
+                <p id="username-error" class="text-red-500 text-xs mt-1 hidden"></p>
+            </div>
 
-            <button type="submit">Submit</button>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    required 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter your email"
+                >
+                <p id="email-error" class="text-red-500 text-xs mt-1 hidden"></p>
+            </div>
+
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    required 
+                    minlength="8" 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Create a strong password"
+                >
+                <div id="password-strength-meter" class="h-1 mt-1 w-full bg-gray-200 rounded-full">
+                    <div id="strength-indicator" class="h-1 rounded-full"></div>
+                </div>
+                <p id="password-strength-text" class="text-xs mt-1 text-gray-600"></p>
+                <p id="password-error" class="text-red-500 text-xs mt-1 hidden"></p>
+            </div>
+
+            <div class="mb-4">
+                <label for="confirm-password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
+                <input 
+                    type="password" 
+                    id="confirm-password" 
+                    name="confirm-password" 
+                    required 
+                    class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Repeat your password"
+                >
+                <p id="confirm-password-error" class="text-red-500 text-xs mt-1 hidden"></p>
+            </div>
+
+            <div class="mb-4">
+                <label class="flex items-center">
+                    <input 
+                        type="checkbox" 
+                        id="terms" 
+                        name="terms" 
+                        required 
+                        class="mr-2"
+                    >
+                    <span class="text-sm text-gray-700">I agree to the Terms and Conditions</span>
+                </label>
+                <p id="terms-error" class="text-red-500 text-xs mt-1 hidden"></p>
+            </div>
+
+            <button 
+                type="submit" 
+                class="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+                Sign Up
+            </button>
         </form>
     </div>
 
-    <div id="errorPopup" class="popup"></div>
-    <div id="confirmationPopup" class="popup"></div>
+    <div id="error-popup" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
+            <h3 class="text-xl font-bold mb-4 text-red-600">Error</h3>
+            <p id="error-message" class="text-gray-700"></p>
+            <button id="close-error-popup" class="mt-4 w-full bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <div id="success-popup" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white p-6 rounded-lg shadow-xl max-w-sm w-full">
+            <h3 class="text-xl font-bold mb-4 text-green-600">Success</h3>
+            <p id="success-message" class="text-gray-700">Account created successfully!</p>
+            <button id="close-success-popup" class="mt-4 w-full bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                Continue
+            </button>
+        </div>
+    </div>
+
+    <script src="validation.js"></script>
 </body>
 </html>
